@@ -86,13 +86,6 @@
   </v-container>
 </template>
 <style lang="scss">
-html,
-body {
-  font-family: 'Raleway';
-  font-size: 16px;
-  width: 100%;
-  height: 100%;
-}
 .module__menu {
   .v-color-picker {
     &__controls {
@@ -102,7 +95,7 @@ body {
 }
 </style>
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRefs } from '@vue/composition-api';
+import { computed, reactive, ref, toRefs } from '@vue/composition-api';
 import '@/styles/module.scss';
 import * as Module from './components';
 
@@ -117,7 +110,7 @@ interface Color {
   selectedColor: string;
   getColor: string;
 }
-export default defineComponent({
+export default {
   name: 'Microapp',
   components: {
     'module-monitor': Module.Monitor,
@@ -154,5 +147,5 @@ export default defineComponent({
       menu
     };
   }
-});
+};
 </script>
