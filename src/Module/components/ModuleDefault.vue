@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { ref } from '@vue/composition-api';
+import db from '@/mongo';
 import Instruct from './ModuleInstruct.vue';
 
 export default {
