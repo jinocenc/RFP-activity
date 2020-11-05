@@ -46,7 +46,7 @@
     <div class="module__container" :style="{ 'border-color': getColor }">
       <div class="module__title">
         <div class="module__image rounded-circle">
-          <v-icon light x-large :color="selectedColor">mdi-cog</v-icon>
+          <v-icon light x-large :color="selectedColor">mdi-newspaper-variant-outline</v-icon>
         </div>
         <div class="module__header text-md-h5 text-sm-subtitle-1 d-flex align-center">
           <input :value="moduleName" type="text" class="module__header-text" />
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="module__body">
-        <v-progress-linear color="#3c9dcd" height="2" value="75" buffer-value="95" stream />
+        <v-progress-linear color="#dedede" height="2" value="100" buffer-value="100" stream />
         <div class="module__pagination">
           <div v-for="page in subpages" :key="page" :class="{ active: currentPage == page }">
             <div class="module__pagination-button--active" />
@@ -86,6 +86,13 @@
   </v-container>
 </template>
 <style lang="scss">
+.module {
+  // background-color: #404142;
+
+  &__body {
+    // margin-top: 0px;
+  }
+}
 .module__menu {
   .v-color-picker {
     &__controls {
@@ -95,23 +102,12 @@
 }
 </style>
 <script lang="ts">
-import { computed, reactive, ref, toRefs } from '@vue/composition-api';
+import { computed, defineComponent, reactive, ref, toRefs } from '@vue/composition-api';
 import '@/styles/module.scss';
 import * as Module from './components';
 
-interface Page {
-  subpages: string[];
-  currentPage: string;
-  preview: boolean;
-  getComponent: string;
-}
-interface Color {
-  pilotcityColors: string[][];
-  selectedColor: string;
-  getColor: string;
-}
-export default {
-  name: 'Microapp',
+export default defineComponent({
+  name: 'ModuleName',
   components: {
     'module-monitor': Module.Monitor,
     'module-setup': Module.Setup,
@@ -119,33 +115,40 @@ export default {
     'module-preview': Module.Default
   },
   setup() {
-    const moduleName = ref('Module Name');
-    const page: Page = reactive({
+    const moduleName = ref('Request for Projects');
+    const page = reactive({
       subpages: ['Setup', 'Presets', 'Monitor'],
       currentPage: 'Setup',
-      preview: false,
-      getComponent: computed(() => {
-        return `module-${page.currentPage.toLowerCase()}`;
-      })
+      preview: false
     });
-    const color: Color = reactive({
+    const getComponent = computed(() => {
+      return `module-${page.currentPage.toLowerCase()}`;
+    });
+    const color = reactive({
       pilotcityColors: [
         ['#6eba80', '#3c9dcd', '#ea6764'],
         ['#eda1bf', '#fec34b', '#bdbdbd'],
         ['#ae90b0', '#f79961', '#000000']
       ],
-      selectedColor: '#bdbdbd',
-      getColor: computed(() => {
-        return color.selectedColor.substring(0, 7);
-      })
+      selectedColor: '#3c9dcd'
+    });
+    const getColor = computed(() => {
+      return color.selectedColor.substring(0, 7);
+    });
+    const config = ref({
+      description: '',
+      instruct: ['']
     });
     const menu = ref(false);
     return {
       ...toRefs(color as any),
       ...toRefs(page as any),
+      config,
       moduleName,
-      menu
+      menu,
+      getComponent,
+      getColor
     };
   }
-};
+});
 </script>

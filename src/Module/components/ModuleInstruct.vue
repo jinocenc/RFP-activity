@@ -3,16 +3,21 @@
   <v-container class="module-instruct">
     <div class="module-instruct__container">
       <div class="module-instruct__description">
-        <div
-          class="module-instruct__description-label font-weight-black text-subtitle-2 text-uppercase"
-        >
-          <span>Instructions</span>
+        <div class="module-instruct__description-label">
+          <span>Goal</span>
         </div>
-        <div :contenteditable="!readonly" class="font-weight-black text-body-1">
+        <div
+          :contenteditable="!readonly"
+          class="font-weight-black text-body-1"
+          @input="updateDesc($event)"
+        >
           {{ description }}
         </div>
       </div>
       <div class="module-instruct__instructions">
+        <div class="module-instruct__description-label">
+          <span>Instructions</span>
+        </div>
         <div
           v-for="(item, index) in instructions"
           :key="item + index"
@@ -34,7 +39,6 @@
         <div
           v-if="!readonly"
           class="module-instruct__instructions-add font-weight-black text-body-1"
-          @click="instructions = ''"
         >
           <v-icon class="module-instruct__instructions-add-icon"> mdi-plus </v-icon>
         </div>
@@ -44,9 +48,23 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, WritableComputedRef } from '@vue/composition-api';
+import {
+  computed,
+  reactive,
+  WritableComputedRef,
+  toRefs,
+  defineComponent
+} from '@vue/composition-api';
 
-export default {
+interface Val {
+  description: string;
+  instructions: string[];
+}
+interface Update {
+  updateDesc: (e: Event) => void;
+  updateInstruction: (e: Event) => void;
+}
+export default defineComponent({
   name: 'ModuleInstruct',
   model: {
     prop: 'value',
@@ -93,5 +111,7 @@ export default {
       instructions
     };
   }
-};
+});
 </script>
+
+<style lang="scss"></style>
